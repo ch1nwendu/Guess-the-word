@@ -1,0 +1,46 @@
+import random
+
+def get_guess():
+    while True:
+        guess = input("Guess: ")
+        if len(guess) != 1:
+            print("Your guess must have exactly one character!")
+        elif not guess.islower():
+            print("Your guess must be a lowercase letter!")
+        else:
+            return guess
+
+def update_dashes(secret_word, dashes, guess):
+    result = ""
+    for i in range(len(secret_word)):
+        if secret_word[i] == guess:
+            result += guess
+        else:
+            result += dashes[i]
+    return result
+
+def main():
+    word_list = ["apple", "banana", "cherry", "date", "elderberry" , "beet" , "carrot" , "oranges" , "grapes" , "mangos"]
+    secret_word = random.choice(word_list)
+    dashes = "-" * len(secret_word)
+    guesses_left = 10
+
+    while guesses_left > 0:
+        print(dashes)
+        guess = get_guess()
+
+        if guess in secret_word:
+            print("That letter is in the word!")
+            dashes = update_dashes(secret_word, dashes, guess)
+            if "-" not in dashes:
+                print(f"Congratulations! You guessed the word: {secret_word}")
+                return
+        else:
+            print("That letter is not in the word.")
+            guesses_left -= 1
+            print(f"You have {guesses_left} guesses left.")
+
+    print(f"You ran out of guesses You lose!! The word was: {secret_word}")
+
+if __name__ == "__main__":
+    main()
